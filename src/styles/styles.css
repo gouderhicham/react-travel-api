@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Archivo', sans-serif;
+}
+.leaflet-container {
+  width: 70vw;
+  height: 100vh;
+}
+nav {
+  padding: 1rem 1.5rem;
+  background-color: rgb(78, 123, 247);
+}
+nav .logo {
+  color: white;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+}
