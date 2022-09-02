@@ -3,6 +3,7 @@ import { useEffect } from "react";
 const Nav = () => {
   const [input, setinput] = useState("");
   const [filteredOptions, setfilteredOptions] = useState([]);
+  const [locs, setlocs] = useState([]);
   const [options, setoptions] = useState([
     { name: "hicham" },
     { name: "gouder" },
@@ -11,16 +12,16 @@ const Nav = () => {
     { name: "safa" },
     { name: "sabrin" },
   ]);
-  const einstellung = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": "5cfa285475msh7ea3a84888c7ce5p1e1e97jsnf62bfbcd3100",
-      "X-RapidAPI-Host": "google-maps-autocomplete-plus.p.rapidapi.com",
-    },
-  };
-
+  async function getLocations(input) {
+    if (input === "") return;
+    let res = await fetch(
+      `https://api.geoapify.com/v1/geocode/autocomplete?text=${input}&apiKey=40de237fa18940ff8eb30ef323a52d08`
+    );
+    let { features } = await res.json();
+    setlocs(features);
+  }
   useEffect(() => {
-    console.log(input);
+    getLocations(input);
   }, [input]);
   return (
     <nav>
@@ -48,17 +49,20 @@ const Nav = () => {
             type="text"
           />
           <div className="suggestions">
-            {filteredOptions.map((option) => (
-              <div
-                onClick={(e) => {
-                  // change the input field to the suggested option clicked
-                  setinput(e.target.textContent);
-                }}
-                key={option.name}
-              >
-                {option.name}
-              </div>
-            ))}
+            {filteredOptions.length > 0 &&
+              filteredOptions.map((option) => (
+                <div
+                  onClick={(e) => {
+                    // change the input field to the suggested option clicked
+                    setinput(e.target.textContent);
+                    // change the options to null after clicking on one to hide the options field
+                    setfilteredOptions([]);
+                  }}
+                  key={option.name}
+                >
+                  {option.name}
+                </div>
+              ))}
           </div>
         </div>
       </section>
@@ -66,10 +70,3 @@ const Nav = () => {
   );
 };
 export default Nav;
-// fetch(
-//   `https://google-maps-autocomplete-plus.p.rapidapi.com/autocomplete?query=${input}&limit=10`,
-//   einstellung
-// )
-//   .then((response) => response.json())
-//   .then((response) => console.log(response))
-//   .catch((err) => console.error(err));
