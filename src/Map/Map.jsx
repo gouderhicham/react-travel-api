@@ -3,16 +3,15 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Container from "./Container";
 
-const Map = () => {
+const Map = ({cords}) => {
   return (
     <>
       <MapContainer
-        whenReady={() => {}}
-        center={[51.512, -0.39]}
+        center={[cords.lat, cords.lng]}
         zoom={13}
         scrollWheelZoom={true}
       >
-        <Container>
+        <Container cords = {cords}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

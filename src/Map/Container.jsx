@@ -1,12 +1,11 @@
 import React from "react";
 import { useMap } from "react-leaflet";
-import { OpenStreetMapProvider, GeoSearchControl } from "leaflet-geosearch";
-const Container = ({ children }) => {
+import { useEffect } from "react";
+const Container = ({ children , cords }) => {
   const map = useMap();
-  const search = new GeoSearchControl({
-    provider: new OpenStreetMapProvider(),
-  });
-  map.addControl(search);
+  useEffect(() => {
+    map.flyTo([cords.lat , cords.lng] , 14)
+  }, [cords]);
   return <>{children}</>;
 };
 export default Container;
