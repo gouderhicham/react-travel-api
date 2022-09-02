@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Container from "./Container";
 
-const Map = ({cords}) => {
+const Map = ({ cords, sethotels, setrestaurants }) => {
   return (
     <>
       <MapContainer
@@ -11,7 +11,11 @@ const Map = ({cords}) => {
         zoom={13}
         scrollWheelZoom={true}
       >
-        <Container cords = {cords}>
+        <Container
+          sethotels={sethotels}
+          setrestaurants={setrestaurants}
+          cords={cords}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

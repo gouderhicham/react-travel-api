@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import useDebounce from "@clave/use-debounce";
+import Suggest from "./Suggest";
+import { placesUrl } from "../exports";
 const Nav = ({ setcords }) => {
   const [input, setinput] = useState("");
   // usedebound to not span server with api calls
@@ -10,9 +12,7 @@ const Nav = ({ setcords }) => {
   // function the gonna get all the locations that user typed
   async function getLocations(input) {
     if (input === "") return;
-    let res = await fetch(
-      `https://api.geoapify.com/v1/geocode/autocomplete?text=${input}&apiKey=40de237fa18940ff8eb30ef323a52d08`
-    );
+    let res = await fetch(placesUrl(input));
     let { features } = await res.json();
     setlocations(features);
   }
@@ -27,6 +27,7 @@ const Nav = ({ setcords }) => {
         <p className="text">Search for any places</p>
         <div className="input">
           <input
+            placeholder="🔍︎"
             value={input}
             onChange={(e) => {
               // change the input value to the input field
@@ -35,26 +36,15 @@ const Nav = ({ setcords }) => {
             type="text"
           />
           <div className="suggestions">
-            {locations.length > 0 &&
-              locations.map((option) => (
-                <div
-                  key={Math.random()}
-                  onClick={(e) => {
-                    // change the input field to the suggested option clicked
-                    setinput(e.target.textContent);
-                    // change the options to null after clicking on one to hide the options field
-                    setlocations([]);
-                    setcords({
-                      lat: option.properties.lat,
-                      lng: option.properties.lon,
-                    });
-                    console.log(
-                      `lat : ${option.properties.lat} , lng : ${option.properties.lon}`
-                    );
-                  }}
-                >
-                  {option.properties.address_line1} {option.properties.country}
-                </div>
+            {locations?.length > 0 &&
+              locations.map((option, i) => (
+                <Suggest
+                  key={i}
+                  setinput={setinput}
+                  setcords={setcords}
+                  setlocations={setlocations}
+                  option={option}
+                />
               ))}
           </div>
         </div>

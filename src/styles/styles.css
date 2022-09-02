@@ -31,15 +31,14 @@ nav .search-section {
 }
 nav .search-section .text {
   color: white;
-  font-weight: bold;
   font-size: 1.3rem;
-  padding: 0 0.2rem;
+  padding: 0 0.5rem;
 }
 nav .search-section input {
   color: black;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   outline: none;
-  padding: 0.2rem 0.5rem;
+  padding: 0.5rem 0.5rem;
   border: none;
 }
 nav .search-section .input {
@@ -50,13 +49,21 @@ nav .search-section .input .suggestions {
   top: auto;
   left: 0;
   width: 100%;
+  z-index:10; 
+
 }
 nav .search-section .input .suggestions div{
-  padding: 0.4rem 0.5rem;
+  padding: 0.6rem 0.5rem;
   background-color: white;
   width: 100%;
   border-top: 1px solid rgb(184, 184, 184);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+nav .search-section .input .suggestions div img{
+  margin-right: 4px;
 }
 nav .search-section .input .suggestions div:hover{
   background-color: rgb(209, 209, 209);
@@ -66,4 +73,16 @@ nav .search-section .input .suggestions div:last-child{
 }
 .leaflet-control-attribution{
   display: none;
+}
+.leaflet-container {
+  z-index: 2;
+}
+.hero-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+.hero-container .info-section{
+  
 }
