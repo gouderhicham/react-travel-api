@@ -8,15 +8,62 @@
 }
 .leaflet-container {
   width: 70vw;
-  height: 100vh;
+  height: 80vh;
 }
 nav {
   padding: 1rem 1.5rem;
   background-color: rgb(78, 123, 247);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
 nav .logo {
   color: white;
   font-family: "Ubuntu", sans-serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
   letter-spacing: 2px;
+}
+nav .search-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+nav .search-section .text {
+  color: white;
+  font-weight: bold;
+  font-size: 1.3rem;
+  padding: 0 0.2rem;
+}
+nav .search-section input {
+  color: black;
+  font-size: 1.1rem;
+  outline: none;
+  padding: 0.2rem 0.5rem;
+  border: none;
+}
+nav .search-section .input {
+  position: relative;
+}
+nav .search-section .input .suggestions {
+  position: absolute;
+  top: auto;
+  left: 0;
+  width: 100%;
+}
+nav .search-section .input .suggestions div{
+  padding: 0.4rem 0.5rem;
+  background-color: white;
+  width: 100%;
+  border-top: 1px solid rgb(184, 184, 184);
+  cursor: pointer;
+}
+nav .search-section .input .suggestions div:hover{
+  background-color: rgb(209, 209, 209);
+}
+nav .search-section .input .suggestions div:last-child{
+  border-bottom: 1px solid rgb(184, 184, 184);
+}
+.leaflet-control-attribution{
+  display: none;
 }

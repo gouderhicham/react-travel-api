@@ -1,5 +1,5 @@
 import React from "react";
-import Map from "./Map";
+import Map from "./Map/Map";
 import Nav from "./Nav";
 import "./styles/styles.css";
 
