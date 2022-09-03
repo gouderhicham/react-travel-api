@@ -16,7 +16,7 @@ const Suggest = ({ option, setinput, setlocations, setcords }) => {
       }}
     >
       <img src={location} />
-      {option.properties.address_line1} {option.properties.country}
+      {option.properties.address_line1}{" "}{option.properties.country}
     </div>
   );
 };

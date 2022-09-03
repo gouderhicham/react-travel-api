@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Map from "./Map/Map";
 import Nav from "./Nav/Nav";
-import InfoSection from "./InfoSection"
+import InfoSection from "./InfoSection";
 import "./styles/styles.css";
 
 function App() {
@@ -15,8 +15,9 @@ function App() {
     <div className="App">
       <Nav setcords={setcords} />
       <div className="hero-container">
-        <InfoSection /> 
+        <InfoSection restaurants={restaurants} hotels={hotels} />
         <Map
+          setcords={setcords}
           sethotels={sethotels}
           setrestaurants={setrestaurants}
           cords={cords}

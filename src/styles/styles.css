@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap");
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Archivo', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 .leaflet-container {
   width: 70vw;
@@ -49,10 +49,9 @@ nav .search-section .input .suggestions {
   top: auto;
   left: 0;
   width: 100%;
-  z-index:10; 
-
+  z-index: 10;
 }
-nav .search-section .input .suggestions div{
+nav .search-section .input .suggestions div {
   padding: 0.6rem 0.5rem;
   background-color: white;
   width: 100%;
@@ -62,27 +61,28 @@ nav .search-section .input .suggestions div{
   align-items: center;
   font-size: 0.9rem;
 }
-nav .search-section .input .suggestions div img{
+nav .search-section .input .suggestions div img {
   margin-right: 4px;
 }
-nav .search-section .input .suggestions div:hover{
+nav .search-section .input .suggestions div:hover {
   background-color: rgb(209, 209, 209);
 }
-nav .search-section .input .suggestions div:last-child{
+nav .search-section .input .suggestions div:last-child {
   border-bottom: 1px solid rgb(184, 184, 184);
 }
-.leaflet-control-attribution{
+.leaflet-control-attribution {
   display: none;
 }
 .leaflet-container {
   z-index: 2;
 }
-.hero-container{
+.hero-container {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
 }
-.hero-container .info-section{
-  
+.hero-container .info-section {
+  padding: 1rem;
+  background-color: rgb(207, 207, 207);
 }

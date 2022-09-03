@@ -6,7 +6,7 @@ import { placesUrl } from "../exports";
 const Nav = ({ setcords }) => {
   const [input, setinput] = useState("");
   // usedebound to not span server with api calls
-  const delayedValue = useDebounce(input, 100);
+  const delayedValue = useDebounce(input, 300);
   // locations that gonna be rendred
   const [locations, setlocations] = useState([]);
   // function the gonna get all the locations that user typed

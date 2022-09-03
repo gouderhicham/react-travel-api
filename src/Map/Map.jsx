@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Container from "./Container";
 
-const Map = ({ cords, sethotels, setrestaurants }) => {
+const Map = ({ cords, sethotels, setrestaurants , setcords}) => {
   return (
     <>
       <MapContainer
@@ -12,6 +12,7 @@ const Map = ({ cords, sethotels, setrestaurants }) => {
         scrollWheelZoom={true}
       >
         <Container
+        setcords = {setcords}
           sethotels={sethotels}
           setrestaurants={setrestaurants}
           cords={cords}
