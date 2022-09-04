@@ -24,10 +24,9 @@ const Nav = ({ setcords }) => {
     <nav>
       <h1 className="logo">GOUDER GPS ✈️</h1>
       <section className="search-section">
-        <p className="text">Search for any places</p>
         <div className="input">
           <input
-            placeholder="🔍︎"
+            placeholder="🔍︎  search for places ..."
             value={input}
             onChange={(e) => {
               // change the input value to the input field

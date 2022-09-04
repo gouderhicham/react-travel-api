@@ -1,6 +1,5 @@
-import React from "react";
 import { useMap } from "react-leaflet";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useDebounce from "@clave/use-debounce";
 import { hotelsUrl, restaurantsUrl, options } from "../exports";
 const Container = ({
@@ -10,26 +9,70 @@ const Container = ({
   sethotels,
   setrestaurants,
 }) => {
-  const delayedValue = useDebounce(cords, 500);
+  const [boundCords, setboundCords] = useState({
+    bLat: 51.512,
+    bLng: -0.39,
+    tLat: 51.552,
+    tLng: -0.41,
+  });
+  const delayedValue = useDebounce(cords, 1000);
+  const delayedValue2 = useDebounce(boundCords, 4200);
   const map = useMap();
-  useEffect(() => {
-    map.addEventListener("dragend", function () {
-      setcords({
-        lat: map.getCenter().lat,
-        lng: map.getCenter().lng,
-      });
+  map.addEventListener("dragend", function () {
+    setboundCords({
+      bLat: map.getBounds()._southWest.lat,
+      bLng: map.getBounds()._southWest.lng,
+      tLat: map.getBounds()._northEast.lat,
+      tLng: map.getBounds()._northEast.lng,
     });
-    map.flyTo([cords.lat, cords.lng], 14);
-  }, [cords]);
-  // TODO: fire when user stop typing
+    setcords({
+      lat: map.getCenter().lat,
+      lng: map.getCenter().lng,
+    });
+  });
+  const fetchData = () => {
+    fetch(
+      hotelsUrl(
+        boundCords.bLat,
+        boundCords.bLng,
+        boundCords.tLat,
+        boundCords.tLng
+      ),
+      options
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        sethotels(res.data);
+      });
+    fetch(
+      restaurantsUrl(
+        boundCords.bLat,
+        boundCords.bLng,
+        boundCords.tLat,
+        boundCords.tLng
+      ),
+      options
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setrestaurants(res.data);
+      });
+  };
   useEffect(() => {
-    // fetch(hotelsUrl(cords.lat, cords.lng), options)
-    //   .then((res) => res.json())
-    //   .then((res) => sethotels(res.data));
-    // fetch(restaurantsUrl(cords.lat, cords.lng), options)
-    //   .then((res) => res.json())
-    //   .then((res) => setrestaurants(res.data));
-  }, [delayedValue]);
+    setboundCords({
+      bLat: map.getBounds()._southWest.lat,
+      bLng: map.getBounds()._southWest.lng,
+      tLat: map.getBounds()._northEast.lat,
+      tLng: map.getBounds()._northEast.lng,
+    });
+    map.flyTo([cords.lat, cords.lng]);
+  }, [cords]);
+  // TODO: fix fetching happen twice 
+  useEffect(() => {
+    fetchData()
+  }, [delayedValue,delayedValue2]);
+
   return <>{children}</>;
 };
 export default Container;

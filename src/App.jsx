@@ -17,6 +17,8 @@ function App() {
       <div className="hero-container">
         <InfoSection restaurants={restaurants} hotels={hotels} />
         <Map
+          hotels={hotels}
+          restaurants={restaurants}
           setcords={setcords}
           sethotels={sethotels}
           setrestaurants={setrestaurants}
