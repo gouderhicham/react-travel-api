@@ -7,7 +7,7 @@ const InfoSection = ({ hotels, restaurants }) => {
   return (
     <div className="info-section">
       <h1>Food & Dinning Around you</h1>
-      <p style={{marginTop : "0.4rem"}}>Type</p>
+      <p style={{ marginTop: "0.4rem" }}>Type</p>
       <div className="selections">
         <select defaultValue={"choose category"} id="selectbox">
           <option disabled value={"choose category"} hidden>
@@ -26,15 +26,21 @@ const InfoSection = ({ hotels, restaurants }) => {
         </select>
       </div>
       <section className="section">
-        <div className="card">
-          {hotels?.map((hotel) => (
-            <h2 key={Math.random()} style={{ padding: "1rem" }}>
-              {hotel.name}
-            </h2>
-          ))}
-        </div>
+        {hotels?.map((hotel) => (
+          <div key={Math.random()} className="card">
+            <img src={hotel?.photo?.images?.large.url} width={"100%"} alt="" />
+            <h2>{hotel.name}</h2>
+            <p>Price : {hotel.price_level}</p>
+            <p>ranking : {hotel.ranking}</p>
+            <p>This Hotel has {hotel?.awards?.length} awards</p>
+            {hotel?.location_string && (
+              <p>Location: {hotel.location_string}</p>
+            )}
+          </div>
+        ))}
       </section>
     </div>
   );
 };
 export default InfoSection;
+//FIXME: the video is paused on 1:23:05

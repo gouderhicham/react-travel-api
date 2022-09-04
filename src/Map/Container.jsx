@@ -15,8 +15,7 @@ const Container = ({
     tLat: 51.552,
     tLng: -0.41,
   });
-  const delayedValue = useDebounce(cords, 1000);
-  const delayedValue2 = useDebounce(boundCords, 4200);
+  const delayedValue = useDebounce(boundCords, 4200);
   const map = useMap();
   map.addEventListener("dragend", function () {
     setboundCords({
@@ -59,6 +58,14 @@ const Container = ({
         setrestaurants(res.data);
       });
   };
+  map.on("zoomend", () => {
+    setboundCords({
+      bLat: map.getBounds()._southWest.lat,
+      bLng: map.getBounds()._southWest.lng,
+      tLat: map.getBounds()._northEast.lat,
+      tLng: map.getBounds()._northEast.lng,
+    });
+  });
   useEffect(() => {
     setboundCords({
       bLat: map.getBounds()._southWest.lat,
@@ -68,11 +75,11 @@ const Container = ({
     });
     map.flyTo([cords.lat, cords.lng]);
   }, [cords]);
-  // TODO: fix fetching happen twice 
+  // FIXME: fix fetching happen twice
   useEffect(() => {
-    fetchData()
-  }, [delayedValue,delayedValue2]);
-
+    // fetchData()
+  }, [delayedValue]);
   return <>{children}</>;
 };
 export default Container;
+//TODO: restaurant.cuisine.map({name} => <h1>{name}</h1>) => style them as keywords in stake overflow
