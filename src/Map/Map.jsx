@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Container from "./Container";
@@ -9,9 +9,8 @@ import hotelImg from "../images/hotel.jpg";
 const Map = ({
   hotels,
   setpopups,
-  popups,
   cards,
-  restaurants,
+  infos,
   cords,
   sethotels,
   setrestaurants,
@@ -24,7 +23,10 @@ const Map = ({
     });
   }
   const popUpRefs = useRef([]);
-  setpopups(popUpRefs)
+
+  useEffect(() => {
+    setpopups(popUpRefs);
+  }, [infos]);
   return (
     <>
       <MapContainer
@@ -43,35 +45,33 @@ const Map = ({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
         </Container>
-        {hotels?.length > 0 &&
-          hotels?.map((hotel, i) => (
-            <Marker 
+        {infos?.length > 0 &&
+          infos?.map((place, i) => (
+            <Marker
               eventHandlers={{
-                click: (e) => {
-                  console.log(popups.current[i]._latlng.lat , popups.current[i]._latlng.lng)
-                  cards.current[i].scrollIntoView({behavior: 'smooth' });
+                click: () => {
+                  cards.current[i].scrollIntoView({ behavior: "smooth" });
                 },
               }}
-              ref={(el) => (popUpRefs.current[i] = el)}
+              ref={(el) => {
+                return (popUpRefs.current[i] = el);
+              }}
               icon={getIcon()}
               key={i}
-              position={[
-                hotel.latitude || 0,
-               hotel.longitude || 0,
-              ]}
+              position={[place?.latitude || 0, place?.longitude || 0]}
             >
               <Popup className="headshot">
                 <img
                   className="img"
                   src={
-                    hotel?.photo?.images?.small.url
-                      ? hotel?.photo?.images?.small.url
+                    place?.photo?.images?.small.url
+                      ? place?.photo?.images?.small.url
                       : hotelImg
                   }
                 />
-                <h3>{hotel.name}</h3>
+                <h3>{place.name}</h3>
                 <div className="reviews">
-                  {getRating(Number(hotel?.rating)).map((fe) => fe)}
+                  {getRating(Number(place?.rating)).map((fe) => fe)}
                 </div>
               </Popup>
             </Marker>

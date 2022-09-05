@@ -11,26 +11,32 @@ function App() {
   const [hotels, sethotels] = useState([]);
   const [restaurants, setrestaurants] = useState([]);
   const [cat, setcat] = useState({
-    type: "restaurant",
+    type: "hotels",
     rating: 3,
   });
   const [cards, setcards] = useState(null);
   const [popups, setpopups] = useState(null);
+  const [infos, setinfos] = useState([]);
   return (
     <div className="App">
       <Nav setcords={setcords} />
       <div className="hero-container">
         <InfoSection
           setcards={setcards}
+          popups={popups}
           cat={cat}
           setcat={setcat}
           restaurants={restaurants}
           hotels={hotels}
+          setinfos={setinfos}
+          infos={infos}
         />
         <Map
+          setinfos={setinfos}
+          infos={infos}
           setpopups={setpopups}
-          popups = {popups}
-          cards = {cards}
+          popups={popups}
+          cards={cards}
           cat={cat}
           setcat={setcat}
           hotels={hotels}

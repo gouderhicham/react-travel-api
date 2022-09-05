@@ -1,16 +1,33 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import hotelImg from "./images/hotel.jpg";
 import { getRating } from "./exports";
 //TODO: style the info card just one for test and then seperate to a Card component and render multiple ones
 //TODO: add <Hotels /> or <Restaurants /> based on filter
-const InfoSection = ({ hotels,setcards, restaurants, cat, setcat }) => {
-  let filteredHotels = hotels?.filter((hotel) => {
-    if (hotel.name !== "") {
-      return hotel;
+const InfoSection = ({
+  setinfos,
+  infos,
+  hotels,
+  setcards,
+  restaurants,
+  cat,
+  setcat,
+  popups,
+}) => {
+  let filteredInfos = infos?.filter((place) => {
+    if (place?.name?.length > 0) {
+      return place;
     }
   });
   const cardsRefs = useRef([]);
-  setcards(cardsRefs)
+  useEffect(() => {
+    setcards(cardsRefs);
+    setinfos(filteredInfos);
+    if (cat.type !== "hotels") {
+      setinfos(restaurants);
+    } else {
+      setinfos(hotels);
+    }
+  }, [cat, hotels]);
   return (
     <div className="info-section">
       <h1>Food & Dinning Around you</h1>
@@ -48,22 +65,25 @@ const InfoSection = ({ hotels,setcards, restaurants, cat, setcat }) => {
       </div>
 
       <section className="section">
-        {filteredHotels?.map((hotel , i) => (
-          <div onClick={()=> {
-            console.log(cardsRefs.current[i]);
-          }}
-                className = {`card ${hotel.latitude} ${hotel.longitude}`}
-                ref={(el) => (cardsRefs.current[i] = el)} key={Math.random()}>
+        {filteredInfos?.map((place, i) => (
+          <div
+            onClick={() => {
+              popups.current[i].openPopup();
+            }}
+            className={`card}`}
+            ref={(el) => (cardsRefs.current[i] = el)}
+            key={Math.random()}
+          >
             <img
-              src={hotel?.photo?.images?.large.url || hotelImg}
+              src={place?.photo?.images?.large.url || place}
               width={"100%"}
               alt=""
             />
-            <h2>{hotel.name}</h2>
-            <p>Price : {hotel.price_level}</p>
-            <p>ranking : {hotel.ranking}</p>
-            <p>rating:{getRating(Number(hotel.rating)).map((fe) => fe)}</p>
-            {hotel?.location_string && <p>Location: {hotel.location_string}</p>}
+            <h2>{place.name}</h2>
+            <p>Price : {place.price}</p>
+            <p>ranking : {place.ranking}</p>
+            <p>rating:{getRating(Number(place.rating)).map((fe) => fe)}</p>
+            {place?.location_string && <p>Location: {place.location_string}</p>}
           </div>
         ))}
       </section>

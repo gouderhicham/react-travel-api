@@ -1,4 +1,5 @@
 import { useMap } from "react-leaflet";
+//TODO: restaurant.cuisine.map({name} => <h1>{name}</h1>) => style them as keywords in stake overflow
 import React, { useEffect, useState } from "react";
 import useDebounce from "@clave/use-debounce";
 import { hotelsUrl, restaurantsUrl, options } from "../exports";
@@ -15,7 +16,7 @@ const Container = ({
     tLat: 51.552,
     tLng: -0.41,
   });
-  const delayedValue = useDebounce(boundCords, 4200);
+  const delayedValue = useDebounce(boundCords, 2000);
   const map = useMap();
   map.addEventListener("dragend", function () {
     setboundCords({
@@ -41,8 +42,7 @@ const Container = ({
     )
       .then((res) => res.json())
       .then((res) => {
-        if (res.data.length === 0) {
-          console.log("empty data");
+        if (res?.data?.length === 0) {
         } else {
           sethotels(res.data);
         }
@@ -58,8 +58,7 @@ const Container = ({
     )
       .then((res) => res.json())
       .then((res) => {
-        if (res.data.length === 0) {
-          console.log("empty data");
+        if (res?.data?.length === 0) {
         } else {
           setrestaurants(res.data);
         }
@@ -89,4 +88,3 @@ const Container = ({
   return <>{children}</>;
 };
 export default Container;
-//TODO: restaurant.cuisine.map({name} => <h1>{name}</h1>) => style them as keywords in stake overflow
