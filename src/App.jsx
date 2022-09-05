@@ -3,7 +3,6 @@ import Map from "./Map/Map";
 import Nav from "./Nav/Nav";
 import InfoSection from "./InfoSection";
 import "./styles/styles.css";
-
 function App() {
   const [cords, setcords] = useState({
     lat: 51.512,
@@ -11,12 +10,29 @@ function App() {
   });
   const [hotels, sethotels] = useState([]);
   const [restaurants, setrestaurants] = useState([]);
+  const [cat, setcat] = useState({
+    type: "restaurant",
+    rating: 3,
+  });
+  const [cards, setcards] = useState(null);
+  const [popups, setpopups] = useState(null);
   return (
     <div className="App">
       <Nav setcords={setcords} />
       <div className="hero-container">
-        <InfoSection restaurants={restaurants} hotels={hotels} />
+        <InfoSection
+          setcards={setcards}
+          cat={cat}
+          setcat={setcat}
+          restaurants={restaurants}
+          hotels={hotels}
+        />
         <Map
+          setpopups={setpopups}
+          popups = {popups}
+          cards = {cards}
+          cat={cat}
+          setcat={setcat}
           hotels={hotels}
           restaurants={restaurants}
           setcords={setcords}

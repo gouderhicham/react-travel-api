@@ -41,8 +41,11 @@ const Container = ({
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-        sethotels(res.data);
+        if (res.data.length === 0) {
+          console.log("empty data");
+        } else {
+          sethotels(res.data);
+        }
       });
     fetch(
       restaurantsUrl(
@@ -55,7 +58,11 @@ const Container = ({
     )
       .then((res) => res.json())
       .then((res) => {
-        setrestaurants(res.data);
+        if (res.data.length === 0) {
+          console.log("empty data");
+        } else {
+          setrestaurants(res.data);
+        }
       });
   };
   map.on("zoomend", () => {
@@ -77,7 +84,7 @@ const Container = ({
   }, [cords]);
   // FIXME: fix fetching happen twice
   useEffect(() => {
-    // fetchData()
+    fetchData()
   }, [delayedValue]);
   return <>{children}</>;
 };

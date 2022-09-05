@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Container from "./Container";
-//TODO: render marks on every restaurant hotels.map (t => <Marker>...)
+import { getRating } from "../exports";
+import L from "leaflet";
+import hotel from "../images/hotel.png";
+import hotelImg from "../images/hotel.jpg";
 const Map = ({
   hotels,
+  setpopups,
+  popups,
+  cards,
   restaurants,
   cords,
   sethotels,
   setrestaurants,
   setcords,
 }) => {
+  function getIcon() {
+    return L.icon({
+      iconUrl: hotel,
+      iconSize: 35,
+    });
+  }
+  const popUpRefs = useRef([]);
+  setpopups(popUpRefs)
   return (
     <>
       <MapContainer
@@ -30,15 +44,36 @@ const Map = ({
           />
         </Container>
         {hotels?.length > 0 &&
-          hotels.map((hotel, i) => (
-            <Marker
+          hotels?.map((hotel, i) => (
+            <Marker 
+              eventHandlers={{
+                click: (e) => {
+                  console.log(popups.current[i]._latlng.lat , popups.current[i]._latlng.lng)
+                  cards.current[i].scrollIntoView({behavior: 'smooth' });
+                },
+              }}
+              ref={(el) => (popUpRefs.current[i] = el)}
+              icon={getIcon()}
               key={i}
               position={[
-                Number(hotel.latitude) || 0,
-                Number(hotel.longitude) || 0,
+                hotel.latitude || 0,
+               hotel.longitude || 0,
               ]}
             >
-              <Popup>{hotel.name}</Popup>
+              <Popup className="headshot">
+                <img
+                  className="img"
+                  src={
+                    hotel?.photo?.images?.small.url
+                      ? hotel?.photo?.images?.small.url
+                      : hotelImg
+                  }
+                />
+                <h3>{hotel.name}</h3>
+                <div className="reviews">
+                  {getRating(Number(hotel?.rating)).map((fe) => fe)}
+                </div>
+              </Popup>
             </Marker>
           ))}
       </MapContainer>
