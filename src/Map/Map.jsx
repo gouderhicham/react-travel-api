@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Container from "./Container";
@@ -6,7 +6,7 @@ import { getRating } from "../exports";
 import L from "leaflet";
 import hotel from "../images/hotel.png";
 import hotelImg from "../images/hotel.jpg";
-import restau from "../images/restaurant.png"
+import restau from "../images/restaurant.png";
 const Map = ({
   setloading,
   hotels,
@@ -22,19 +22,19 @@ const Map = ({
 }) => {
   function getIcon() {
     return L.icon({
-      iconUrl: (cat.type === "hotels"?hotel : restau),
+      iconUrl: cat.type === "hotels" ? hotel : restau,
       iconSize: 45,
     });
   }
   const popUpRefs = useRef([]);
-  let filteredHotels = (
-    cat.type === "restaurants" ? restaurants : hotels
-  )?.filter((hotel) => {
-    if (hotel.name === "" || hotel.latitude === undefined) {
-    } else {
-      return hotel;
-    }
-  });
+  let filteredHotels = (cat.type === "restaurants" ? restaurants : hotels)
+    ?.filter((hotel) => {
+      if (hotel.name === "" || hotel.latitude === undefined) {
+      } else {
+        return hotel;
+      }
+    })
+    .filter((item) => item.rating >= cat.rating);
   useEffect(() => {
     setpopups(popUpRefs);
   }, [popups]);
@@ -54,14 +54,14 @@ const Map = ({
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
         </Container>
         {filteredHotels?.length > 0 &&
           filteredHotels?.map((hotel, i) => (
             <Marker
               eventHandlers={{
-                click: (e) => {
+                click: () => {
                   console.log(
                     popups.current[i]._latlng.lat,
                     popups.current[i]._latlng.lng

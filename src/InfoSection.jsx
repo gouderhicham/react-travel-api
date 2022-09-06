@@ -19,7 +19,7 @@ const InfoSection = ({
     } else {
       return hotel;
     }
-  });
+  }).filter(item => item.rating >= cat.rating)
   const cardsRefs = useRef([]);
   useEffect(() => {
     setcards(cardsRefs);
@@ -54,6 +54,9 @@ const InfoSection = ({
           <option disabled value={"rating"} hidden>
             rating
           </option>
+          <option value={0}>all</option>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
           <option value={3}>3</option>
           <option value={4}>4</option>
           <option value={5}>5</option>
@@ -63,6 +66,7 @@ const InfoSection = ({
         <Loader />
       ) : (
         <section className="section">
+          {hotels === undefined && restaurants === undefined && <p>i run out of api calls</p>}
           {filteredHotels?.map((hotel, i) => (
             <div
               onClick={() => {
