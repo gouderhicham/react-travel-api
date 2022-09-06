@@ -6,7 +6,7 @@ export const options = {
   method: "GET",
   headers: {
     "X-RapidAPI-Key":
-      "004eaadf88msh573cd4d2337f28cp1850a1jsnea8c05a17049" ||
+     
       "2c4bd0642amsh41dced96deb88dfp183f98jsn1516cc02eff7",
     "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
   },

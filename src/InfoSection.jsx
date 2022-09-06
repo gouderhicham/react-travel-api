@@ -1,33 +1,29 @@
 import React, { useEffect, useRef } from "react";
 import hotelImg from "./images/hotel.jpg";
 import { getRating } from "./exports";
-//TODO: style the info card just one for test and then seperate to a Card component and render multiple ones
-//TODO: add <Hotels /> or <Restaurants /> based on filter
+import Loader from "./components/Loader";
 const InfoSection = ({
-  setinfos,
-  infos,
+  loading,
   hotels,
+  sethotels,
   setcards,
   restaurants,
+  popups,
   cat,
   setcat,
-  popups,
 }) => {
-  let filteredInfos = infos?.filter((place) => {
-    if (place?.name?.length > 0) {
-      return place;
+  let filteredHotels = (
+    cat.type === "restaurants" ? restaurants : hotels
+  )?.filter((hotel) => {
+    if (hotel.name === "" || hotel.latitude === undefined) {
+    } else {
+      return hotel;
     }
   });
   const cardsRefs = useRef([]);
   useEffect(() => {
     setcards(cardsRefs);
-    setinfos(filteredInfos);
-    if (cat.type !== "hotels") {
-      setinfos(restaurants);
-    } else {
-      setinfos(hotels);
-    }
-  }, [cat, hotels]);
+  }, [popups]);
   return (
     <div className="info-section">
       <h1>Food & Dinning Around you</h1>
@@ -63,30 +59,49 @@ const InfoSection = ({
           <option value={5}>5</option>
         </select>
       </div>
-
-      <section className="section">
-        {filteredInfos?.map((place, i) => (
-          <div
-            onClick={() => {
-              popups.current[i].openPopup();
-            }}
-            className={`card}`}
-            ref={(el) => (cardsRefs.current[i] = el)}
-            key={Math.random()}
-          >
-            <img
-              src={place?.photo?.images?.large.url || place}
-              width={"100%"}
-              alt=""
-            />
-            <h2>{place.name}</h2>
-            <p>Price : {place.price}</p>
-            <p>ranking : {place.ranking}</p>
-            <p>rating:{getRating(Number(place.rating)).map((fe) => fe)}</p>
-            {place?.location_string && <p>Location: {place.location_string}</p>}
-          </div>
-        ))}
-      </section>
+      {loading ? (
+        <Loader />
+      ) : (
+        <section className="section">
+          {filteredHotels?.map((hotel, i) => (
+            <div
+              onClick={() => {
+                popups.current[i].openPopup();
+              }}
+              className={`card ${hotel.latitude} ${hotel.longitude}`}
+              ref={(el) => (cardsRefs.current[i] = el)}
+              key={Math.random()}
+            >
+              <img
+                src={hotel?.photo?.images?.large.url || hotelImg}
+                width={"100%"}
+                alt=""
+              />
+              <h2>{hotel.name}</h2>
+              <p>Price : {hotel.price ? hotel.price : "not mentioned"}</p>
+              {cat.type === "restaurants" && (
+                <>
+                  <p>Location: {hotel.address}</p>
+                  <p>Open: {hotel.open_now_text}</p>
+                  <p>Phone: {hotel.phone}</p>
+                  <p>Restaurant website: {hotel.website}</p>
+                  <div className="foods">
+                    Food:
+                    {hotel.cuisine.map((food, i) => (
+                      <p key={i}>{food.name}</p>
+                    ))}
+                  </div>
+                </>
+              )}
+              <p>ranking : {hotel.ranking}</p>
+              <p>rating:{getRating(Number(hotel.rating)).map((fe) => fe)}</p>
+              {hotel?.location_string && cat.type === "hotels" && (
+                <p>Location: {hotel.location_string}</p>
+              )}
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
 };

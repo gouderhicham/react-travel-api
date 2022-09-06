@@ -1,10 +1,10 @@
 import { useMap } from "react-leaflet";
-//TODO: restaurant.cuisine.map({name} => <h1>{name}</h1>) => style them as keywords in stake overflow
 import React, { useEffect, useState } from "react";
 import useDebounce from "@clave/use-debounce";
 import { hotelsUrl, restaurantsUrl, options } from "../exports";
 const Container = ({
   children,
+  setloading,
   cords,
   setcords,
   sethotels,
@@ -16,7 +16,7 @@ const Container = ({
     tLat: 51.552,
     tLng: -0.41,
   });
-  const delayedValue = useDebounce(boundCords, 2000);
+  const delayedValue = useDebounce(boundCords, 2500);
   const map = useMap();
   map.addEventListener("dragend", function () {
     setboundCords({
@@ -31,38 +31,52 @@ const Container = ({
     });
   });
   const fetchData = () => {
-    fetch(
-      hotelsUrl(
-        boundCords.bLat,
-        boundCords.bLng,
-        boundCords.tLat,
-        boundCords.tLng
-      ),
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        if (res?.data?.length === 0) {
-        } else {
-          sethotels(res.data);
-        }
-      });
-    fetch(
-      restaurantsUrl(
-        boundCords.bLat,
-        boundCords.bLng,
-        boundCords.tLat,
-        boundCords.tLng
-      ),
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        if (res?.data?.length === 0) {
-        } else {
-          setrestaurants(res.data);
-        }
-      });
+    setloading(true)
+    if (
+      boundCords.bLat &&
+      boundCords.bLng &&
+      boundCords.tLng &&
+      boundCords.tLat
+    ) {
+      fetch(
+        hotelsUrl(
+          boundCords.bLat,
+          boundCords.bLng,
+          boundCords.tLat,
+          boundCords.tLng
+        ),
+        options
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          if (res?.data?.length === 0) {
+            console.log("empty data");
+            setloading(false)
+          } else {
+            sethotels(res.data);
+            setloading(false)
+          }
+        });
+      fetch(
+        restaurantsUrl(
+          boundCords.bLat,
+          boundCords.bLng,
+          boundCords.tLat,
+          boundCords.tLng
+        ),
+        options
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          if (res?.data?.length === 0) {
+            console.log("empty data");
+            setloading(false)
+          } else {
+            setrestaurants(res.data);
+            setloading(false)
+          }
+        });
+    }
   };
   map.on("zoomend", () => {
     setboundCords({
@@ -83,8 +97,9 @@ const Container = ({
   }, [cords]);
   // FIXME: fix fetching happen twice
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, [delayedValue]);
   return <>{children}</>;
 };
 export default Container;
+//TODO: restaurant.cuisine.map({name} => <h1>{name}</h1>) => style them as keywords in stake overflow
