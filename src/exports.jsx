@@ -5,7 +5,7 @@ export const placesUrl = (input) =>
 export const options = {
   method: "GET",
   headers: {
-    'X-RapidAPI-Key': '9a828158d5msh69aece54f8f04c8p10fab2jsn5f535e97bf52',
+    "X-RapidAPI-Key": "6d5c04d078msha210675cc899075p13eaa4jsn42b4e50066fb",
     "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
   },
 };

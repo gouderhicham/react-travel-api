@@ -16,7 +16,7 @@ const Container = ({
     tLat: 51.552,
     tLng: -0.41,
   });
-  const delayedValue = useDebounce(boundCords, 650);
+  const delayedValue = useDebounce(boundCords, 350);
   const map = useMap();
   map.addEventListener("dragend", function () {
     setboundCords({
@@ -32,7 +32,6 @@ const Container = ({
   });
   const fetchData = () => {
     setloading(true);
-
     fetch(
       hotelsUrl(
         boundCords.bLat,
@@ -46,7 +45,6 @@ const Container = ({
       .then((res) => {
         if (res?.data?.length === 0) {
           console.log("empty data");
-          setloading(false);
         } else {
           sethotels(res.data);
           setloading(false);
@@ -69,7 +67,8 @@ const Container = ({
           setrestaurants(res.data);
           setloading(false);
         }
-      });
+      })
+      .catch((err) => console.error(err));
   };
   map.on("zoomend", () => {
     setboundCords({
