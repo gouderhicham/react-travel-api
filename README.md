@@ -1,3 +1,3 @@
-# react-travel-api
-
-this app need more style
+# react-travel-app
+### this app is created with **geopify** ✎ for autocomplete , **leaflet** 🗺️, **travel advisor** 🏠
+## (this app need a lot of styling ).

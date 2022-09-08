@@ -1,21 +1,27 @@
 import React, { useState } from "react";
-import Map from "./Map/Map";
-import Nav from "./Nav/Nav";
-import InfoSection from "./InfoSection";
+import Map from "./components/Map/Map";
+import Nav from "./components/Nav/Nav";
+import InfoSection from "./components/InfoSection";
 import "./styles/styles.css";
 function App() {
+  // cards that gonna change after clicking on input suggests
   const [cords, setcords] = useState({
     lat: 51.512,
     lng: -0.39,
   });
+  // hotels and restaurants 
   const [hotels, sethotels] = useState([]);
   const [restaurants, setrestaurants] = useState([]);
+  // categories => type : restaurants or hotels / rating => [0,5] 
   const [cat, setcat] = useState({
     type: "hotels",
     rating: 3,
   });
+  // cards divs
   const [cards, setcards] = useState(null);
+  // map popups (markers)
   const [popups, setpopups] = useState(null);
+  // loading value
   const [loading, setloading] = useState(true);
   return (
     <div className="App">
@@ -49,5 +55,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

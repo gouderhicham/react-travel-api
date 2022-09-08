@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import useDebounce from "@clave/use-debounce";
 import Suggest from "./Suggest";
-import { placesUrl } from "../exports";
+import { placesUrl } from "../../exports";
 const Nav = ({ setcords }) => {
   const [input, setinput] = useState("");
   // usedebound to not span server with api calls
-  const delayedValue = useDebounce(input, 300);
+  const delayedValue = useDebounce(input, 200);
   // locations that gonna be rendred
   const [locations, setlocations] = useState([]);
   // function the gonna get all the locations that user typed

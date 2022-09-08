@@ -1,5 +1,5 @@
 import React from "react";
-import location from "../images/location.png";
+import location from "../../images/location.png";
 const Suggest = ({ option, setinput, setlocations, setcords }) => {
   return (
     <div
@@ -9,6 +9,7 @@ const Suggest = ({ option, setinput, setlocations, setcords }) => {
         setinput(e.target.textContent);
         // change the options to null after clicking on one to hide the options field
         setlocations([]);
+        // change cords after clicking on one element
         setcords({
           lat: option.properties.lat,
           lng: option.properties.lon,
